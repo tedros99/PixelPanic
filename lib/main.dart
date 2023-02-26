@@ -101,7 +101,7 @@ class MyApp extends StatelessWidget {
               child: IconButton(
                 color: Colors.white,
                 icon: const Icon(Icons.arrow_left),
-                onPressed: () => print("dpad up"),
+                onPressed: () => print("dpad down"),
               ),
             )),
         Container(
