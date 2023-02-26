@@ -16,7 +16,7 @@ class MyApp extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Text(
-                "BananaField",
+                "Balls",
                 textScaleFactor: 3.0,
               ),
               ElevatedButton(
