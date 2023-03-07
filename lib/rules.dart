@@ -1,16 +1,7 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
-import 'game.dart';
-import 'rules.dart';
-import 'score.dart';
 
-void main() => runApp(MaterialApp(
-      home: MyApp(),
-    ));
-
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+class RulesPage extends StatelessWidget {
+  const RulesPage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -22,57 +13,25 @@ class MyApp extends StatelessWidget {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Text(
-                "TetriField",
-                textScaleFactor: 3.0,
+              const Text(
+                'So you want to play TetriField?',
+                textScaleFactor: 2.0,
+                textAlign: TextAlign.center,
+              ),
+              SizedBox(
+                height: 20,
+              ),
+              const Text(
+                  textAlign: TextAlign.center,
+                  "1. Create board using tetronimoes.\n\n2. Press the swap button.\n\n3. Try to find the mines and flag them.\n\n4. Flag all mines in row = Cleared!\n\n5. Now do it all over again!"),
+              SizedBox(
+                height: 20,
               ),
               ElevatedButton(
-                onPressed: () {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (BuildContext context) => const GamePage()));
-                },
-                child: const Text(
-                  "PLAY",
-                ),
-                style: ElevatedButton.styleFrom(
-                  primary: Color.fromARGB(255, 40, 43, 31),
-                ),
-              ),
-              ElevatedButton(
-                onPressed: () {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (BuildContext context) =>
-                              const RulesPage()));
-                },
-                child: const Text("RULES"),
-                style: ElevatedButton.styleFrom(
-                  primary: Color.fromARGB(255, 40, 43, 31),
-                ),
-              ),
-              ElevatedButton(
-                onPressed: () {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (BuildContext context) =>
-                              const ScoresPage()));
-                },
-                child: const Text("SCORE"),
-                style: ElevatedButton.styleFrom(
-                  primary: Color.fromARGB(255, 40, 43, 31),
-                ),
-              ),
-              ElevatedButton(
-                onPressed: () => exit(0),
-                child: const Text("EXIT"),
-                style: ElevatedButton.styleFrom(
-                  primary: Color.fromARGB(255, 40, 43, 31),
-                ),
-              ),
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                  child: const Text('Return to Main Menu'))
             ],
           )),
     );

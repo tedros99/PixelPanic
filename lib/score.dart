@@ -1,16 +1,7 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
-import 'game.dart';
-import 'rules.dart';
-import 'score.dart';
 
-void main() => runApp(MaterialApp(
-      home: MyApp(),
-    ));
-
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+class ScoresPage extends StatelessWidget {
+  const ScoresPage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -22,57 +13,11 @@ class MyApp extends StatelessWidget {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Text(
-                "TetriField",
-                textScaleFactor: 3.0,
-              ),
               ElevatedButton(
-                onPressed: () {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (BuildContext context) => const GamePage()));
-                },
-                child: const Text(
-                  "PLAY",
-                ),
-                style: ElevatedButton.styleFrom(
-                  primary: Color.fromARGB(255, 40, 43, 31),
-                ),
-              ),
-              ElevatedButton(
-                onPressed: () {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (BuildContext context) =>
-                              const RulesPage()));
-                },
-                child: const Text("RULES"),
-                style: ElevatedButton.styleFrom(
-                  primary: Color.fromARGB(255, 40, 43, 31),
-                ),
-              ),
-              ElevatedButton(
-                onPressed: () {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (BuildContext context) =>
-                              const ScoresPage()));
-                },
-                child: const Text("SCORE"),
-                style: ElevatedButton.styleFrom(
-                  primary: Color.fromARGB(255, 40, 43, 31),
-                ),
-              ),
-              ElevatedButton(
-                onPressed: () => exit(0),
-                child: const Text("EXIT"),
-                style: ElevatedButton.styleFrom(
-                  primary: Color.fromARGB(255, 40, 43, 31),
-                ),
-              ),
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                  child: const Text('This is the scores page'))
             ],
           )),
     );
