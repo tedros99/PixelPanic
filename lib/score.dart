@@ -13,11 +13,18 @@ class ScoresPage extends StatelessWidget {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
+              const Text(
+                "Last 10 Saved Scores: ",
+                textScaleFactor: 1.5,
+              ),
+              SizedBox(
+                height: 20,
+              ),
               ElevatedButton(
                   onPressed: () {
                     Navigator.pop(context);
                   },
-                  child: const Text('This is the scores page'))
+                  child: const Text('Return to Home Page'))
             ],
           )),
     );

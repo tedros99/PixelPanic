@@ -5,6 +5,8 @@ import 'game.dart';
 import 'rules.dart';
 import 'score.dart';
 
+import 'package:google_fonts/google_fonts.dart';
+
 void main() => runApp(MaterialApp(
       home: MyApp(),
     ));
@@ -25,6 +27,7 @@ class MyApp extends StatelessWidget {
               Text(
                 "TetriField",
                 textScaleFactor: 3.0,
+                style: GoogleFonts.robotoMono(),
               ),
               ElevatedButton(
                 onPressed: () {
@@ -33,8 +36,9 @@ class MyApp extends StatelessWidget {
                       MaterialPageRoute(
                           builder: (BuildContext context) => const GamePage()));
                 },
-                child: const Text(
+                child: Text(
                   "PLAY",
+                  style: GoogleFonts.robotoMono(),
                 ),
                 style: ElevatedButton.styleFrom(
                   primary: Color.fromARGB(255, 40, 43, 31),
@@ -48,7 +52,10 @@ class MyApp extends StatelessWidget {
                           builder: (BuildContext context) =>
                               const RulesPage()));
                 },
-                child: const Text("RULES"),
+                child: Text(
+                  "RULES",
+                  style: GoogleFonts.robotoMono(),
+                ),
                 style: ElevatedButton.styleFrom(
                   primary: Color.fromARGB(255, 40, 43, 31),
                 ),
@@ -61,14 +68,20 @@ class MyApp extends StatelessWidget {
                           builder: (BuildContext context) =>
                               const ScoresPage()));
                 },
-                child: const Text("SCORE"),
+                child: Text(
+                  "SCORES",
+                  style: GoogleFonts.robotoMono(),
+                ),
                 style: ElevatedButton.styleFrom(
                   primary: Color.fromARGB(255, 40, 43, 31),
                 ),
               ),
               ElevatedButton(
                 onPressed: () => exit(0),
-                child: const Text("EXIT"),
+                child: Text(
+                  "EXIT",
+                  style: GoogleFonts.robotoMono(),
+                ),
                 style: ElevatedButton.styleFrom(
                   primary: Color.fromARGB(255, 40, 43, 31),
                 ),
@@ -226,8 +239,8 @@ class MyApp extends StatelessWidget {
     );
     return MaterialApp(
       theme: ThemeData(
-        scaffoldBackgroundColor: const Color.fromARGB(255, 204, 214, 221),
-      ),
+          scaffoldBackgroundColor: const Color.fromARGB(255, 204, 214, 221),
+          fontFamily: 'Raleway'),
       title: 'Flutter layout demo',
       home: Scaffold(
         body: Container(
