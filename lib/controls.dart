@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-class ScoresPage extends StatelessWidget {
-  const ScoresPage({super.key});
+class ControlsPage extends StatelessWidget {
+  const ControlsPage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -15,11 +15,18 @@ class ScoresPage extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Text(
-                "Last 10 Saved Scores: ",
-                textScaleFactor: 1.5,
                 style: GoogleFonts.robotoMono(),
+                'So you want to learn the controls?',
+                textScaleFactor: 2.0,
                 textAlign: TextAlign.center,
               ),
+              SizedBox(
+                height: 20,
+              ),
+              Text(
+                  style: GoogleFonts.robotoMono(),
+                  textAlign: TextAlign.center,
+                  "D-PAD Up: Nothing\n\nD-PAD Down: Move Tetronimo Down\n\nD-PAD Left: Move Tetronimo Left\n\nD-PAD Right: Move Tetronimo Right\n\nBlue Button: Rotate Tetronimo\n\nRed Button: Drop Tetronimo"),
               SizedBox(
                 height: 20,
               ),
@@ -31,7 +38,7 @@ class ScoresPage extends StatelessWidget {
                     Navigator.pop(context);
                   },
                   child: Text(
-                    'Return to Home Page',
+                    'Return to Rules Page',
                     style: GoogleFonts.robotoMono(),
                   ))
             ],
