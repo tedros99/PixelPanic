@@ -9,15 +9,15 @@ class GamePage extends StatelessWidget {
       width: 300,
       height: 450,
       child: Card(
-          color: Color.fromARGB(255, 189, 199, 144),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
+          color: const Color.fromARGB(255, 189, 199, 144),
+          child: Stack(
             children: [
-              ElevatedButton(
-                  onPressed: () {
-                    Navigator.pop(context);
-                  },
-                  child: const Text('This is the Game Page'))
+              Tile(0),
+              Tile(1),
+              Tile(2),
+              Tile(3),
+              Tile(4),
+              Tile(5),
             ],
           )),
     );
@@ -182,5 +182,37 @@ class GamePage extends StatelessWidget {
         ),
       ),
     );
+  }
+}
+
+class Tile extends StatefulWidget {
+  final int col;
+  const Tile(this.col);
+
+  @override
+  State<Tile> createState() => _TileState();
+}
+
+class _TileState extends State<Tile> {
+  int clicks = 0;
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+        child: Stack(children: <Widget>[
+      AnimatedPositioned(
+          width: 45,
+          height: 45,
+          left: widget.col * 45,
+          top: (clicks < 8) ? 0 + clicks * 50 : 400,
+          duration: const Duration(seconds: 0),
+          child: GestureDetector(
+              onTap: () {
+                setState(() {
+                  clicks++;
+                });
+              },
+              child: Container(
+                  color: Colors.blue, child: const Center(child: Text("a")))))
+    ]));
   }
 }
