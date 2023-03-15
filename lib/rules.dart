@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'controls.dart';
 
 class RulesPage extends StatelessWidget {
   const RulesPage({super.key});
@@ -13,25 +15,48 @@ class RulesPage extends StatelessWidget {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              const Text(
+              Text(
                 'So you want to play TetriField?',
                 textScaleFactor: 2.0,
                 textAlign: TextAlign.center,
+                style: GoogleFonts.robotoMono(),
               ),
               SizedBox(
                 height: 20,
               ),
-              const Text(
+              Text(
+                  style: GoogleFonts.robotoMono(),
                   textAlign: TextAlign.center,
                   "1. Create board using tetronimoes.\n\n2. Press the swap button.\n\n3. Try to find the mines and flag them.\n\n4. Flag all mines in row = Cleared!\n\n5. Now do it all over again!"),
               SizedBox(
                 height: 20,
               ),
               ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    primary: Color.fromARGB(255, 40, 43, 31),
+                  ),
+                  onPressed: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (BuildContext context) =>
+                                const ControlsPage()));
+                  },
+                  child: Text(
+                    'Go to Controls',
+                    style: GoogleFonts.robotoMono(),
+                  )),
+              ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    primary: Color.fromARGB(255, 40, 43, 31),
+                  ),
                   onPressed: () {
                     Navigator.pop(context);
                   },
-                  child: const Text('Return to Main Menu'))
+                  child: Text(
+                    'Return to Main Menu',
+                    style: GoogleFonts.robotoMono(),
+                  )),
             ],
           )),
     );
