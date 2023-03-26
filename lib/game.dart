@@ -18,7 +18,7 @@ class _GameState extends State<GamePage> {
     collision = List.generate(6, (i) => List.filled(9, 0), growable: false);
     for (int i = 0; i < children.length; i++) {
       Tile t = children[i] as Tile;
-      collision[t.col][t.clicks] = 1;
+      collision[t.col][t.clicks] = currTile;
     }
     print(collision);
   }
@@ -43,7 +43,7 @@ class _GameState extends State<GamePage> {
       case "drop":
         int curr = t.clicks;
         for (int i = curr + 1; i < 9; i++) {
-          if (collision[t.col][i] == 1) return i - 1;
+          if (collision[t.col][i] != 0) return i - 1;
         }
         return 8;
       default:
