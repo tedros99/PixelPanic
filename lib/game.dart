@@ -44,7 +44,8 @@ class _GameState extends State<GamePage> {
                 icon: const Icon(Icons.arrow_left),
                 onPressed: () {
                   setState(() {
-                    children = children + [Tile(currTile++)];
+                    children = children + [Tile(3)];
+                    currTile++;
                   });
                 },
               ),
