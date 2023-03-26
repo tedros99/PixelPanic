@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 
 var gameState = _TileState();
@@ -156,7 +158,10 @@ class _GameState extends State<GamePage> {
             color: Colors.red,
             iconSize: 48.00,
             icon: const Icon(Icons.circle),
-            onPressed: () => print("swap butn"),
+            onPressed: (() {
+              Tile banana = children[currTile - 1] as Tile;
+              gameState.dropBlock();
+            }),
           ),
         ),
         Container(
@@ -260,6 +265,12 @@ class _TileState extends State<Tile> {
   void moveDown() {
     setState(() {
       widget.clicks += 1;
+    });
+  }
+
+  void dropBlock() {
+    setState(() {
+      widget.clicks = 8;
     });
   }
 
