@@ -20,8 +20,8 @@ class _GameState extends State<GamePage> {
   @override
   Widget build(BuildContext context) {
     Widget topSection = SizedBox(
-      width: 300,
-      height: 450,
+      width: 308,
+      height: 458,
       child: Card(
           color: const Color.fromARGB(255, 189, 199, 144),
           child: Stack(
@@ -198,7 +198,7 @@ class _GameState extends State<GamePage> {
 
     Widget bottomSection = SizedBox(
       width: 350,
-      height: 200,
+      height: 190,
       child: controls,
     );
     return MaterialApp(
@@ -244,10 +244,10 @@ class _TileState extends State<Tile> {
     return SizedBox(
         child: Stack(children: <Widget>[
       AnimatedPositioned(
-          width: 45,
-          height: 45,
-          left: widget.col * 45,
-          top: (widget.clicks < 8) ? 0 + widget.clicks * 50 : 400,
+          width: 50,
+          height: 50,
+          left: widget.col * 50,
+          top: (widget.clicks < 9) ? 0 + widget.clicks * 50 : 400,
           duration: const Duration(seconds: 0),
           child: GestureDetector(
               onTap: () {
@@ -269,19 +269,25 @@ class _TileState extends State<Tile> {
 
   void dropBlock() {
     setState(() {
-      widget.clicks = 8;
+      widget.clicks = 9;
     });
   }
 
   void moveLeft() {
     setState(() {
-      widget.col -= 1;
+      int testcol = widget.col - 1;
+      if (testcol >= 0) {
+        widget.col -= 1;
+      }
     });
   }
 
   void moveRight() {
     setState(() {
-      widget.col += 1;
+      int testcol = widget.col + 1;
+      if (testcol <= 5) {
+        widget.col += 1;
+      }
     });
   }
 }
