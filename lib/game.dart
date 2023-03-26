@@ -12,7 +12,18 @@ class GamePage extends StatefulWidget {
 class _GameState extends State<GamePage> {
   var children = <Widget>[];
   var currTile = 0;
+  var collision = List.generate(6, (i) => List.filled(9, 0), growable: false);
 
+  updateCollision() {
+    collision = List.generate(6, (i) => List.filled(9, 0), growable: false);
+    for (int i = 0; i < children.length; i++) {
+      Tile t = children[i] as Tile;
+      collision[t.clicks][t.col] = 1;
+    }
+    // print collision in a good way
+  }
+
+  checkCollision(Tile t) {}
   callback() {
     setState(() {});
   }
@@ -248,7 +259,11 @@ class _TileState extends State<Tile> {
           width: 50,
           height: 50,
           left: widget.col * 50,
+<<<<<<< Updated upstream
           top: (widget.clicks < 9) ? 0 + widget.clicks * 50 : 400,
+=======
+          top: (widget.clicks < 8) ? 0 + widget.clicks * 50 : 400,
+>>>>>>> Stashed changes
           duration: const Duration(seconds: 0),
           child: GestureDetector(
               onTap: () {
