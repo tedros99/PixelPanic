@@ -1,7 +1,19 @@
 import 'package:flutter/material.dart';
 
-class GamePage extends StatelessWidget {
-  const GamePage({super.key});
+var gameState = _TileState();
+
+class GamePage extends StatefulWidget {
+  @override
+  State<GamePage> createState() => _GameState();
+}
+
+class _GameState extends State<GamePage> {
+  var children = <Widget>[];
+  var currTile = 0;
+
+  callback() {
+    setState(() {});
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -11,14 +23,7 @@ class GamePage extends StatelessWidget {
       child: Card(
           color: const Color.fromARGB(255, 189, 199, 144),
           child: Stack(
-            children: [
-              Tile(0),
-              Tile(1),
-              Tile(2),
-              Tile(3),
-              Tile(4),
-              Tile(5),
-            ],
+            children: children,
           )),
     );
 
@@ -35,7 +40,11 @@ class GamePage extends StatelessWidget {
               child: IconButton(
                 color: Colors.white,
                 icon: const Icon(Icons.arrow_left),
-                onPressed: () => print("dpad up"),
+                onPressed: () {
+                  setState(() {
+                    children = children + [Tile(currTile++)];
+                  });
+                },
               ),
             )),
         Container(
@@ -46,7 +55,13 @@ class GamePage extends StatelessWidget {
           child: IconButton(
             color: Colors.white,
             icon: const Icon(Icons.arrow_left),
-            onPressed: () => print("dpad left"),
+            onPressed: () {
+              setState(() {
+                //print(currTile);
+                Tile banana = children[currTile - 1] as Tile;
+                gameState.moveLeft();
+              });
+            },
           ),
         ),
         Container(
@@ -57,7 +72,13 @@ class GamePage extends StatelessWidget {
           child: IconButton(
             color: Colors.white,
             icon: const Icon(Icons.arrow_right),
-            onPressed: () => print("dpad right"),
+            onPressed: () {
+              setState(() {
+                //print(currTile);
+                Tile banana = children[currTile - 1] as Tile;
+                gameState.moveRight();
+              });
+            },
           ),
         ),
         Container(
@@ -70,7 +91,13 @@ class GamePage extends StatelessWidget {
               child: IconButton(
                 color: Colors.white,
                 icon: const Icon(Icons.arrow_left),
-                onPressed: () => print("dpad down"),
+                onPressed: () {
+                  setState(() {
+                    //print(currTile);
+                    Tile banana = children[currTile - 1] as Tile;
+                    gameState.moveDown();
+                  });
+                },
               ),
             )),
         Container(
@@ -186,33 +213,64 @@ class GamePage extends StatelessWidget {
 }
 
 class Tile extends StatefulWidget {
-  final int col;
-  const Tile(this.col);
+  int col = 0;
+  int clicks = 0;
+  Tile(this.col);
+
+  void setColumn(int column) {
+    col = column;
+  }
+
+  void clickThing() {
+    clicks++;
+  }
 
   @override
-  State<Tile> createState() => _TileState();
+  State<Tile> createState() {
+    gameState = _TileState();
+    return gameState;
+  }
 }
 
 class _TileState extends State<Tile> {
-  int clicks = 0;
   @override
   Widget build(BuildContext context) {
+    //int clicks = widget.clicks;
     return SizedBox(
         child: Stack(children: <Widget>[
       AnimatedPositioned(
           width: 45,
           height: 45,
           left: widget.col * 45,
-          top: (clicks < 8) ? 0 + clicks * 50 : 400,
+          top: (widget.clicks < 8) ? 0 + widget.clicks * 50 : 400,
           duration: const Duration(seconds: 0),
           child: GestureDetector(
               onTap: () {
                 setState(() {
-                  clicks++;
+                  //widget.col = widget.col + 1;
+                  widget.clicks += 1;
                 });
               },
               child: Container(
                   color: Colors.blue, child: const Center(child: Text("a")))))
     ]));
+  }
+
+  void moveDown() {
+    setState(() {
+      widget.clicks += 1;
+    });
+  }
+
+  void moveLeft() {
+    setState(() {
+      widget.col -= 1;
+    });
+  }
+
+  void moveRight() {
+    setState(() {
+      widget.col += 1;
+    });
   }
 }

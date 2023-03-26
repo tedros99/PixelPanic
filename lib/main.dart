@@ -34,7 +34,7 @@ class MyApp extends StatelessWidget {
                   Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (BuildContext context) => const GamePage()));
+                          builder: (BuildContext context) => GamePage()));
                 },
                 child: Text(
                   "PLAY",
