@@ -18,12 +18,39 @@ class _GameState extends State<GamePage> {
     collision = List.generate(6, (i) => List.filled(9, 0), growable: false);
     for (int i = 0; i < children.length; i++) {
       Tile t = children[i] as Tile;
-      collision[t.clicks][t.col] = 1;
+      collision[t.col][t.clicks] = 1;
     }
-    // print collision in a good way
+    print(collision);
   }
 
-  checkCollision(Tile t) {}
+  int checkCollision(Tile t, String action) {
+    switch (action) {
+      case "left":
+        if (t.col != 0 && collision[t.col - 1][t.clicks] == 0) {
+          return 0;
+        }
+        return 1;
+      case "right":
+        if (t.col != 5 && collision[t.col + 1][t.clicks] == 0) {
+          return 0;
+        }
+        return 1;
+      case "down":
+        if (t.clicks != 8 && collision[t.col][t.clicks + 1] == 0) {
+          return 0;
+        }
+        return 1;
+      case "drop":
+        int curr = t.clicks;
+        for (int i = curr + 1; i < 9; i++) {
+          if (collision[t.col][i] == 1) return i - 1;
+        }
+        return 8;
+      default:
+        return -1;
+    }
+  }
+
   callback() {
     setState(() {});
   }
@@ -57,6 +84,7 @@ class _GameState extends State<GamePage> {
                   setState(() {
                     children = children + [Tile(3)];
                     currTile++;
+                    updateCollision();
                   });
                 },
               ),
@@ -73,7 +101,10 @@ class _GameState extends State<GamePage> {
               setState(() {
                 //print(currTile);
                 Tile banana = children[currTile - 1] as Tile;
-                gameState.moveLeft();
+                if (checkCollision(banana, "left") == 0) {
+                  gameState.moveLeft();
+                  updateCollision();
+                }
               });
             },
           ),
@@ -90,7 +121,10 @@ class _GameState extends State<GamePage> {
               setState(() {
                 //print(currTile);
                 Tile banana = children[currTile - 1] as Tile;
-                gameState.moveRight();
+                if (checkCollision(banana, "right") == 0) {
+                  gameState.moveRight();
+                  updateCollision();
+                }
               });
             },
           ),
@@ -109,7 +143,10 @@ class _GameState extends State<GamePage> {
                   setState(() {
                     //print(currTile);
                     Tile banana = children[currTile - 1] as Tile;
-                    gameState.moveDown();
+                    if (checkCollision(banana, "down") == 0) {
+                      gameState.moveDown();
+                      updateCollision();
+                    }
                   });
                 },
               ),
@@ -171,7 +208,9 @@ class _GameState extends State<GamePage> {
             icon: const Icon(Icons.circle),
             onPressed: (() {
               Tile banana = children[currTile - 1] as Tile;
-              gameState.dropBlock();
+              int loc = checkCollision(banana, "drop");
+              gameState.dropBlock(loc);
+              updateCollision();
             }),
           ),
         ),
@@ -259,11 +298,7 @@ class _TileState extends State<Tile> {
           width: 50,
           height: 50,
           left: widget.col * 50,
-<<<<<<< Updated upstream
-          top: (widget.clicks < 9) ? 0 + widget.clicks * 50 : 400,
-=======
           top: (widget.clicks < 8) ? 0 + widget.clicks * 50 : 400,
->>>>>>> Stashed changes
           duration: const Duration(seconds: 0),
           child: GestureDetector(
               onTap: () {
@@ -283,9 +318,9 @@ class _TileState extends State<Tile> {
     });
   }
 
-  void dropBlock() {
+  void dropBlock(int loc) {
     setState(() {
-      widget.clicks = 9;
+      widget.clicks = loc;
     });
   }
 
