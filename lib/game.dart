@@ -43,7 +43,7 @@ class _GameState extends State<GamePage> {
       case "drop":
         int curr = t.clicks;
         for (int i = curr + 1; i < 9; i++) {
-          if (collision[t.col][i] == 1) return i - 1;
+          if (collision[t.col][i] != 0) return i - 1;
         }
         return 8;
       default:
