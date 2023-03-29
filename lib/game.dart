@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:math';
 
 import 'package:flutter/material.dart';
@@ -18,7 +19,7 @@ class _GameState extends State<GamePage> {
     collision = List.generate(6, (i) => List.filled(9, 0), growable: false);
     for (int i = 0; i < children.length; i++) {
       Tile t = children[i] as Tile;
-      collision[t.col][t.clicks] = currTile;
+      collision[t.col][t.clicks] = t.id;
     }
     print(collision);
   }
@@ -55,8 +56,25 @@ class _GameState extends State<GamePage> {
     setState(() {});
   }
 
+  Timer? clock;
+
   @override
   Widget build(BuildContext context) {
+    clock?.cancel();
+    clock = Timer.periodic(const Duration(seconds: 1), (timer) {
+      setState(() {
+        if (currTile > 0) {
+          Tile t = children[currTile - 1] as Tile;
+          if ((checkCollision(t, "down") == 0)) {
+            gameState.moveDown();
+          } else {
+            children = children + [Tile(3, ++currTile)];
+          }
+          updateCollision();
+        }
+      });
+    });
+
     Widget topSection = SizedBox(
       width: 308,
       height: 458,
@@ -82,8 +100,7 @@ class _GameState extends State<GamePage> {
                 icon: const Icon(Icons.arrow_left),
                 onPressed: () {
                   setState(() {
-                    children = children + [Tile(3)];
-                    currTile++;
+                    children = children + [Tile(3, ++currTile)];
                     updateCollision();
                   });
                 },
@@ -271,7 +288,8 @@ class _GameState extends State<GamePage> {
 class Tile extends StatefulWidget {
   int col = 0;
   int clicks = 0;
-  Tile(this.col);
+  int id;
+  Tile(this.col, this.id);
 
   void setColumn(int column) {
     col = column;
@@ -314,7 +332,7 @@ class _TileState extends State<Tile> {
 
   void moveDown() {
     setState(() {
-      widget.clicks += 1;
+      widget.clicks = (widget.clicks == 8) ? 8 : widget.clicks + 1;
     });
   }
 
