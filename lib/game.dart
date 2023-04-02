@@ -15,34 +15,11 @@ class _GameState extends State<GamePage> {
   var currTile = 0;
   var collision = List.generate(6, (i) => List.filled(9, 0), growable: false);
 
-  check(Tile element, int w) {
-    if (element.id == w) {
-      return true;
-    }
-    return false;
-  }
-
-  clearLine() {
-    setState(() {
-      var bad = <Widget>[];
-      for (int i = 0; i < collision.length; i++) {
-        var w = collision[i][8];
-        if (w != 0) {
-          children.removeWhere((element) => check(element as Tile, w));
-        }
-      }
-      print(children);
-      currTile = children.length;
-      Tile t = children[currTile - 1] as Tile;
-      updateCollision();
-    });
-  }
-
   updateCollision() {
     collision = List.generate(6, (i) => List.filled(9, 0), growable: false);
     for (int i = 0; i < children.length; i++) {
       Tile t = children[i] as Tile;
-      collision[t.col][t.clicks] = t.id;
+      collision[t.col][t.clicks] = 1;
     }
     print(collision);
   }
@@ -79,25 +56,8 @@ class _GameState extends State<GamePage> {
     setState(() {});
   }
 
-  Timer? clock;
-
   @override
   Widget build(BuildContext context) {
-    clock?.cancel();
-    clock = Timer.periodic(const Duration(seconds: 1), (timer) {
-      setState(() {
-        if (currTile > 0) {
-          Tile t = children[currTile - 1] as Tile;
-          if ((checkCollision(t, "down") == 0)) {
-            gameState.moveDown();
-          } else {
-            children = children + [Tile(3, ++currTile)];
-          }
-          updateCollision();
-        }
-      });
-    });
-
     Widget topSection = SizedBox(
       width: 308,
       height: 458,
@@ -215,9 +175,12 @@ class _GameState extends State<GamePage> {
         Container(
           color: Colors.grey,
           child: IconButton(
-            icon: const Icon(Icons.swap_horiz),
-            onPressed: () => print("swap butn"),
-          ),
+              icon: const Icon(Icons.settings_power_rounded),
+              onPressed: () {
+                setState(() {
+                  children = children + [Tile(3, ++currTile)];
+                });
+              }),
         ),
         Container(
           color: const Color.fromARGB(255, 204, 214, 221),
@@ -261,9 +224,7 @@ class _GameState extends State<GamePage> {
             iconSize: 48.00,
             icon: const Icon(Icons.circle),
             onPressed: () {
-              setState(() {
-                clearLine();
-              });
+              setState(() {});
             },
           ),
         ),
