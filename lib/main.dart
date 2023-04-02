@@ -165,8 +165,8 @@ class MyApp extends StatelessWidget {
         Container(
           color: Colors.grey,
           child: IconButton(
-            icon: const Icon(Icons.swap_horiz),
-            onPressed: () => print("swap butn"),
+            icon: const Icon(Icons.settings_power),
+            onPressed: () => print("reset button"),
           ),
         ),
         Container(
