@@ -56,8 +56,6 @@ class _GameState extends State<GamePage> {
     setState(() {});
   }
 
-  Timer? clock;
-
   @override
   Widget build(BuildContext context) {
     Widget topSection = SizedBox(
