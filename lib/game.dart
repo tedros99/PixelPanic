@@ -15,6 +15,29 @@ class _GameState extends State<GamePage> {
   var currTile = 0;
   var collision = List.generate(6, (i) => List.filled(9, 0), growable: false);
 
+  check(Tile element, int w) {
+    if (element.id == w) {
+      return true;
+    }
+    return false;
+  }
+
+  clearLine() {
+    setState(() {
+      var bad = <Widget>[];
+      for (int i = 0; i < collision.length; i++) {
+        var w = collision[i][8];
+        if (w != 0) {
+          children.removeWhere((element) => check(element as Tile, w));
+        }
+      }
+      print(children);
+      currTile = children.length;
+      Tile t = children[currTile - 1] as Tile;
+      updateCollision();
+    });
+  }
+
   updateCollision() {
     collision = List.generate(6, (i) => List.filled(9, 0), growable: false);
     for (int i = 0; i < children.length; i++) {
@@ -237,7 +260,11 @@ class _GameState extends State<GamePage> {
             color: Colors.blue,
             iconSize: 48.00,
             icon: const Icon(Icons.circle),
-            onPressed: () => print("swap butn"),
+            onPressed: () {
+              setState(() {
+                clearLine();
+              });
+            },
           ),
         ),
         Container(
@@ -289,6 +316,8 @@ class Tile extends StatefulWidget {
   int col = 0;
   int clicks = 0;
   int id;
+
+  int type = 0;
   Tile(this.col, this.id);
 
   void setColumn(int column) {
