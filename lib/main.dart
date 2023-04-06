@@ -25,7 +25,7 @@ class MyApp extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Text(
-                "TetriField",
+                "Pixel Panic",
                 textScaleFactor: 3.0,
                 style: GoogleFonts.robotoMono(),
               ),
