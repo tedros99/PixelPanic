@@ -239,7 +239,7 @@ class _GameState extends State<GamePage> {
                     displayPattern();
                     children = children + [Tile(3, ++currTile, Colors.blue)];
                     started = true;
-                  } else if (failed == true) {
+                  } else {
                     displayPattern();
                     children.clear();
                     updateCollision();
