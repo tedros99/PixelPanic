@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:matrix2d/matrix2d.dart';
 
 var gameState = _TileState();
 
@@ -15,6 +16,9 @@ class _GameState extends State<GamePage> {
   var currTile = 0;
   var collision = List.generate(6, (i) => List.filled(9, 0), growable: false);
   var children2 = <Widget>[];
+  var currPattern = -1;
+  var failed = false;
+  var success = false;
 
   var patternList = [
     [
@@ -36,14 +40,27 @@ class _GameState extends State<GamePage> {
   ];
 
   displayPattern() {
+    children2.clear();
     var ranP = Random().nextInt(patternList.length);
     var pattern = patternList[ranP];
+    currPattern = ranP;
     for (int i = 0; i < pattern.length; i++) {
       for (int j = 0; j < pattern[i].length; j++) {
         if (pattern[i][j] == 1) {
           children2.add(PatternTile(i, j, 0, Color.fromRGBO(0, 0, 0, 0.5)));
         }
       }
+    }
+  }
+
+  checkTile(Tile t) {
+    var p = patternList[currPattern];
+    var value = p[t.col][t.clicks];
+    if (value == 0) {
+      failed = true;
+    }
+    if (collision.sum == p.sum) {
+      success = true;
     }
   }
 
@@ -99,7 +116,7 @@ class _GameState extends State<GamePage> {
     timer?.cancel();
     timer = Timer.periodic(Duration(seconds: 1), (timer) {
       setState(() {
-        if (started) {
+        if (started && failed != true) {
           timetaken++;
         }
       });
@@ -141,10 +158,12 @@ class _GameState extends State<GamePage> {
             color: Colors.white,
             icon: const Icon(Icons.arrow_left),
             onPressed: () {
-              Tile banana = children[currTile - 1] as Tile;
-              if (checkCollision(banana, "left") == 0) {
-                gameState.moveLeft();
-                updateCollision();
+              if (started && failed != true) {
+                Tile banana = children[currTile - 1] as Tile;
+                if (checkCollision(banana, "left") == 0) {
+                  gameState.moveLeft();
+                  updateCollision();
+                }
               }
             },
           ),
@@ -158,10 +177,12 @@ class _GameState extends State<GamePage> {
             color: Colors.white,
             icon: const Icon(Icons.arrow_right),
             onPressed: () {
-              Tile banana = children[currTile - 1] as Tile;
-              if (checkCollision(banana, "right") == 0) {
-                gameState.moveRight();
-                updateCollision();
+              if (started && failed != true) {
+                Tile banana = children[currTile - 1] as Tile;
+                if (checkCollision(banana, "right") == 0) {
+                  gameState.moveRight();
+                  updateCollision();
+                }
               }
             },
           ),
@@ -177,10 +198,12 @@ class _GameState extends State<GamePage> {
                 color: Colors.white,
                 icon: const Icon(Icons.arrow_left),
                 onPressed: () {
-                  Tile banana = children[currTile - 1] as Tile;
-                  if (checkCollision(banana, "down") == 0) {
-                    gameState.moveDown();
-                    updateCollision();
+                  if (started && failed != true) {
+                    Tile banana = children[currTile - 1] as Tile;
+                    if (checkCollision(banana, "down") == 0) {
+                      gameState.moveDown();
+                      updateCollision();
+                    }
                   }
                 },
               ),
@@ -216,6 +239,15 @@ class _GameState extends State<GamePage> {
                     displayPattern();
                     children = children + [Tile(3, ++currTile, Colors.blue)];
                     started = true;
+                  } else {
+                    displayPattern();
+                    children.clear();
+                    updateCollision();
+
+                    currTile = 0;
+                    children = children + [Tile(3, ++currTile, Colors.blue)];
+                    failed = false;
+                    timetaken = 0;
                   }
                 });
               }),
@@ -248,10 +280,12 @@ class _GameState extends State<GamePage> {
             iconSize: 48.00,
             icon: const Icon(Icons.circle),
             onPressed: (() {
-              Tile banana = children[currTile - 1] as Tile;
-              int loc = checkCollision(banana, "drop");
-              gameState.dropBlock(loc);
-              updateCollision();
+              if (started && failed != true) {
+                Tile banana = children[currTile - 1] as Tile;
+                int loc = checkCollision(banana, "drop");
+                gameState.dropBlock(loc);
+                updateCollision();
+              }
             }),
           ),
         ),
@@ -263,7 +297,11 @@ class _GameState extends State<GamePage> {
             icon: const Icon(Icons.circle),
             onPressed: () {
               setState(() {
-                children = children + [Tile(3, ++currTile, Colors.blue)];
+                checkTile(children[currTile - 1] as Tile);
+                if (failed != true) {
+                  children = children + [Tile(3, ++currTile, Colors.blue)];
+                  updateCollision();
+                }
               });
             },
           ),
@@ -296,6 +334,7 @@ class _GameState extends State<GamePage> {
     int sec = (timetaken % 60);
     String minutes = min.toString().length <= 1 ? "0$min" : "$min";
     String seconds = sec.toString().length <= 1 ? "0$sec" : "$sec";
+    String words = "Time: " + minutes + ":" + seconds;
 
     Widget scoreLabel = SizedBox(
       width: 350,
@@ -303,7 +342,7 @@ class _GameState extends State<GamePage> {
       child: Card(
         color: Color.fromARGB(255, 0, 0, 0),
         child: Text(
-          "Time: " + minutes + ":" + seconds,
+          failed ? "Game Over!" : "Time: " + minutes + ":" + seconds,
           style: TextStyle(color: Colors.white, fontSize: 25),
           textAlign: TextAlign.center,
         ),
