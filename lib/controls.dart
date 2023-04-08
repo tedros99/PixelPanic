@@ -26,7 +26,7 @@ class ControlsPage extends StatelessWidget {
               Text(
                   style: GoogleFonts.robotoMono(),
                   textAlign: TextAlign.center,
-                  "D-PAD Up: Nothing\n\nD-PAD Down: Move Tetronimo Down\n\nD-PAD Left: Move Tetronimo Left\n\nD-PAD Right: Move Tetronimo Right\n\nBlue Button: Rotate Tetronimo\n\nRed Button: Drop Tetronimo"),
+                  "D-PAD Up: Nothing\n\nD-PAD Down: Move Tile Down\n\nD-PAD Left: Move Tile Left\n\nD-PAD Right: Move Tile Right\n\nBlue Button: Place Tile\n\nRed Button: Drop Tile to Bottom"),
               SizedBox(
                 height: 20,
               ),

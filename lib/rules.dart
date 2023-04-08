@@ -27,7 +27,7 @@ class RulesPage extends StatelessWidget {
               Text(
                   style: GoogleFonts.robotoMono(),
                   textAlign: TextAlign.center,
-                  "1. Start the game with the power button!\n2. Press the red button to drop a block, and the blue button to lock it.\n3. Try to complete the pattern as fast as possible.\n4. Don't misplace tiles or you lose!\n"),
+                  "1. Start/Reset the game with the power button!\n2. Try to complete the shaded pattern as fast as possible.\n4. Don't misplace tiles or you lose!\n"),
               SizedBox(
                 height: 20,
               ),
