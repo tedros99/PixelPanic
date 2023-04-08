@@ -16,7 +16,7 @@ class RulesPage extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Text(
-                'So you want to play TetriField?',
+                'So you want to play Pixel Panic?',
                 textScaleFactor: 2.0,
                 textAlign: TextAlign.center,
                 style: GoogleFonts.robotoMono(),
@@ -27,7 +27,7 @@ class RulesPage extends StatelessWidget {
               Text(
                   style: GoogleFonts.robotoMono(),
                   textAlign: TextAlign.center,
-                  "1. Create board using tetronimoes.\n\n2. Press the swap button.\n\n3. Try to find the mines and flag them.\n\n4. Flag all mines in row = Cleared!\n\n5. Now do it all over again!"),
+                  "1. Start the game with the power button!\n2. Press the red button to drop a block, and the blue button to lock it.\n3. Try to complete the pattern as fast as possible.\n4. Don't misplace tiles or you lose!\n"),
               SizedBox(
                 height: 20,
               ),
@@ -136,8 +136,8 @@ class RulesPage extends StatelessWidget {
         Container(
           color: Colors.grey,
           child: IconButton(
-            icon: const Icon(Icons.settings_power),
-            onPressed: () => print("reset button"),
+            icon: const Icon(Icons.power_settings_new),
+            onPressed: () {},
           ),
         ),
         Container(
@@ -167,7 +167,7 @@ class RulesPage extends StatelessWidget {
             color: Colors.red,
             iconSize: 48.00,
             icon: const Icon(Icons.circle),
-            onPressed: () => print("swap butn"),
+            onPressed: () {},
           ),
         ),
         Container(
@@ -176,7 +176,7 @@ class RulesPage extends StatelessWidget {
             color: Colors.blue,
             iconSize: 48.00,
             icon: const Icon(Icons.circle),
-            onPressed: () => print("swap butn"),
+            onPressed: () {},
           ),
         ),
         Container(

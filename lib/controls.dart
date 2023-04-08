@@ -58,7 +58,7 @@ class ControlsPage extends StatelessWidget {
               child: IconButton(
                 color: Colors.white,
                 icon: const Icon(Icons.arrow_left),
-                onPressed: () => print("dpad up"),
+                onPressed: () {},
               ),
             )),
         Container(
@@ -69,7 +69,7 @@ class ControlsPage extends StatelessWidget {
           child: IconButton(
             color: Colors.white,
             icon: const Icon(Icons.arrow_left),
-            onPressed: () => print("dpad left"),
+            onPressed: () {},
           ),
         ),
         Container(
@@ -80,7 +80,7 @@ class ControlsPage extends StatelessWidget {
           child: IconButton(
             color: Colors.white,
             icon: const Icon(Icons.arrow_right),
-            onPressed: () => print("dpad right"),
+            onPressed: () {},
           ),
         ),
         Container(
@@ -93,7 +93,7 @@ class ControlsPage extends StatelessWidget {
               child: IconButton(
                 color: Colors.white,
                 icon: const Icon(Icons.arrow_left),
-                onPressed: () => print("dpad down"),
+                onPressed: () {},
               ),
             )),
         Container(
@@ -120,8 +120,8 @@ class ControlsPage extends StatelessWidget {
         Container(
           color: Colors.grey,
           child: IconButton(
-            icon: const Icon(Icons.settings_power),
-            onPressed: () => print("reset button"),
+            icon: const Icon(Icons.power_settings_new),
+            onPressed: () {},
           ),
         ),
         Container(
@@ -151,7 +151,7 @@ class ControlsPage extends StatelessWidget {
             color: Colors.red,
             iconSize: 48.00,
             icon: const Icon(Icons.circle),
-            onPressed: () => print("swap butn"),
+            onPressed: () {},
           ),
         ),
         Container(
@@ -160,7 +160,7 @@ class ControlsPage extends StatelessWidget {
             color: Colors.blue,
             iconSize: 48.00,
             icon: const Icon(Icons.circle),
-            onPressed: () => print("swap butn"),
+            onPressed: () {},
           ),
         ),
         Container(

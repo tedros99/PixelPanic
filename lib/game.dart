@@ -14,6 +14,38 @@ class _GameState extends State<GamePage> {
   var children = <Widget>[];
   var currTile = 0;
   var collision = List.generate(6, (i) => List.filled(9, 0), growable: false);
+  var children2 = <Widget>[];
+
+  var patternList = [
+    [
+      [0, 0, 0, 0, 0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0, 1, 1, 0, 0],
+      [0, 0, 0, 0, 1, 1, 1, 1, 1],
+      [0, 0, 0, 0, 1, 0, 1, 1, 0],
+      [0, 0, 0, 0, 1, 0, 1, 1, 1],
+      [0, 0, 0, 0, 0, 0, 0, 0, 0]
+    ],
+    [
+      [1, 1, 1, 1, 1, 0, 0, 0, 0],
+      [0, 1, 0, 0, 1, 0, 0, 1, 0],
+      [1, 1, 1, 0, 0, 0, 0, 0, 1],
+      [0, 0, 0, 1, 1, 1, 1, 1, 0],
+      [0, 0, 0, 0, 1, 0, 1, 0, 0],
+      [0, 0, 0, 0, 0, 1, 0, 0, 0]
+    ],
+  ];
+
+  displayPattern() {
+    var ranP = Random().nextInt(patternList.length);
+    var pattern = patternList[ranP];
+    for (int i = 0; i < pattern.length; i++) {
+      for (int j = 0; j < pattern[i].length; j++) {
+        if (pattern[i][j] == 1) {
+          children2.add(PatternTile(i, j, 0, Color.fromRGBO(0, 0, 0, 0.5)));
+        }
+      }
+    }
+  }
 
   updateCollision() {
     collision = List.generate(6, (i) => List.filled(9, 0), growable: false);
@@ -56,15 +88,29 @@ class _GameState extends State<GamePage> {
     setState(() {});
   }
 
+  Timer? timer;
+
+  int timetaken = 0;
+
+  bool started = false;
+
   @override
   Widget build(BuildContext context) {
+    timer?.cancel();
+    timer = Timer.periodic(Duration(seconds: 1), (timer) {
+      setState(() {
+        if (started) {
+          timetaken++;
+        }
+      });
+    });
     Widget topSection = SizedBox(
       width: 308,
       height: 458,
       child: Card(
           color: const Color.fromARGB(255, 189, 199, 144),
           child: Stack(
-            children: children,
+            children: children + children2,
           )),
     );
 
@@ -82,10 +128,7 @@ class _GameState extends State<GamePage> {
                 color: Colors.white,
                 icon: const Icon(Icons.arrow_left),
                 onPressed: () {
-                  setState(() {
-                    children = children + [Tile(0)];
-                    updateCollision();
-                  });
+                  setState(() {});
                 },
               ),
             )),
@@ -98,14 +141,11 @@ class _GameState extends State<GamePage> {
             color: Colors.white,
             icon: const Icon(Icons.arrow_left),
             onPressed: () {
-              setState(() {
-                //print(currTile);
-                Tile banana = children[currTile - 1] as Tile;
-                if (checkCollision(banana, "left") == 0) {
-                  gameState.moveLeft();
-                  updateCollision();
-                }
-              });
+              Tile banana = children[currTile - 1] as Tile;
+              if (checkCollision(banana, "left") == 0) {
+                gameState.moveLeft();
+                updateCollision();
+              }
             },
           ),
         ),
@@ -118,14 +158,11 @@ class _GameState extends State<GamePage> {
             color: Colors.white,
             icon: const Icon(Icons.arrow_right),
             onPressed: () {
-              setState(() {
-                //print(currTile);
-                Tile banana = children[currTile - 1] as Tile;
-                if (checkCollision(banana, "right") == 0) {
-                  gameState.moveRight();
-                  updateCollision();
-                }
-              });
+              Tile banana = children[currTile - 1] as Tile;
+              if (checkCollision(banana, "right") == 0) {
+                gameState.moveRight();
+                updateCollision();
+              }
             },
           ),
         ),
@@ -140,14 +177,11 @@ class _GameState extends State<GamePage> {
                 color: Colors.white,
                 icon: const Icon(Icons.arrow_left),
                 onPressed: () {
-                  setState(() {
-                    //print(currTile);
-                    Tile banana = children[currTile - 1] as Tile;
-                    if (checkCollision(banana, "down") == 0) {
-                      gameState.moveDown();
-                      updateCollision();
-                    }
-                  });
+                  Tile banana = children[currTile - 1] as Tile;
+                  if (checkCollision(banana, "down") == 0) {
+                    gameState.moveDown();
+                    updateCollision();
+                  }
                 },
               ),
             )),
@@ -175,9 +209,16 @@ class _GameState extends State<GamePage> {
         Container(
           color: Colors.grey,
           child: IconButton(
-            icon: const Icon(Icons.settings_power),
-            onPressed: () => print("reset butn"),
-          ),
+              icon: const Icon(Icons.power_settings_new),
+              onPressed: () {
+                setState(() {
+                  if (!started) {
+                    displayPattern();
+                    children = children + [Tile(3, ++currTile, Colors.blue)];
+                    started = true;
+                  }
+                });
+              }),
         ),
         Container(
           color: const Color.fromARGB(255, 204, 214, 221),
@@ -221,7 +262,9 @@ class _GameState extends State<GamePage> {
             iconSize: 48.00,
             icon: const Icon(Icons.circle),
             onPressed: () {
-              setState(() {});
+              setState(() {
+                children = children + [Tile(3, ++currTile, Colors.blue)];
+              });
             },
           ),
         ),
@@ -249,9 +292,27 @@ class _GameState extends State<GamePage> {
       ],
     );
 
+    int min = (timetaken / 60).floor();
+    int sec = (timetaken % 60);
+    String minutes = min.toString().length <= 1 ? "0$min" : "$min";
+    String seconds = sec.toString().length <= 1 ? "0$sec" : "$sec";
+
+    Widget scoreLabel = SizedBox(
+      width: 350,
+      height: 50,
+      child: Card(
+        color: Color.fromARGB(255, 0, 0, 0),
+        child: Text(
+          "Time: " + minutes + ":" + seconds,
+          style: TextStyle(color: Colors.white, fontSize: 25),
+          textAlign: TextAlign.center,
+        ),
+      ),
+    );
+
     Widget bottomSection = SizedBox(
       width: 350,
-      height: 190,
+      height: 140,
       child: controls,
     );
     return MaterialApp(
@@ -263,19 +324,68 @@ class _GameState extends State<GamePage> {
         body: Container(
           padding: const EdgeInsets.only(top: 32),
           alignment: Alignment.center,
-          child: Column(children: [topSection, bottomSection]),
+          child: Column(children: [topSection, scoreLabel, bottomSection]),
         ),
       ),
     );
   }
 }
 
+class PatternTile extends StatefulWidget {
+  int col = 0;
+  int row = 0;
+  int id;
+  Color tileColor;
+
+  int type = 0;
+  PatternTile(this.col, this.row, this.id, this.tileColor);
+
+  @override
+  _PatternState createState() {
+    return _PatternState();
+  }
+}
+
+class _PatternState extends State<PatternTile> {
+  @override
+  Widget build(BuildContext context) {
+    //int clicks = widget.clicks;
+    return SizedBox(
+        child: Stack(children: <Widget>[
+      AnimatedPositioned(
+          width: 50,
+          height: 50,
+          left: widget.col * 50,
+          top: (widget.row < 8) ? 0 + widget.row * 50 : 400,
+          duration: const Duration(seconds: 0),
+          child: GestureDetector(
+              onTap: () {
+                setState(() {
+                  //widget.col = widget.col + 1;
+                  widget.row += 1;
+                });
+              },
+              child: Container(color: widget.tileColor)))
+    ]));
+  }
+}
+
 class Tile extends StatefulWidget {
   int col = 0;
   int clicks = 0;
+  int id;
+  Color tileColor;
 
   int type = 0;
-  Tile(this.col);
+  Tile(this.col, this.id, this.tileColor);
+
+  void setColumn(int column) {
+    col = column;
+  }
+
+  void clickThing() {
+    clicks++;
+  }
 
   @override
   State<Tile> createState() {
@@ -304,7 +414,8 @@ class _TileState extends State<Tile> {
                 });
               },
               child: Container(
-                  color: Colors.blue, child: const Center(child: Text("a")))))
+                  color: widget.tileColor,
+                  child: const Center(child: Icon(Icons.circle)))))
     ]));
   }
 
