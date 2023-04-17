@@ -4,6 +4,8 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:matrix2d/matrix2d.dart';
 
+import 'package:shared_preferences/shared_preferences.dart';
+
 var gameState = _TileState();
 
 class GamePage extends StatefulWidget {
@@ -21,6 +23,14 @@ class _GameState extends State<GamePage> {
   var success = false;
 
   var patternList = [
+    [
+      [0, 0, 0, 0, 0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0, 1, 0, 0, 0],
+      [0, 0, 0, 0, 0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0, 0, 0, 0, 0]
+    ],
     [
       [0, 0, 0, 0, 0, 0, 0, 0, 0],
       [0, 0, 0, 0, 0, 1, 1, 0, 0],
@@ -69,14 +79,51 @@ class _GameState extends State<GamePage> {
     }
   }
 
+  setScores(name, score) async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.reload();
+
+    setState(() {
+      if (prefs.getStringList('scores') == null) {
+        prefs.setStringList('scores', [score]);
+        prefs.setStringList('names', [name]);
+      } else {
+        var scores = (prefs.getStringList('scores') ?? ['']);
+        var names = (prefs.getStringList('names') ?? ['']);
+        if (scores.length == 10) {
+          scores.removeLast();
+          names.removeLast();
+        }
+        scores.insert(0, score);
+        names.insert(0, name);
+        prefs.setStringList('scores', scores);
+        prefs.setStringList('names', names);
+      }
+      print(prefs.getStringList('scores'));
+    });
+  }
+
   checkTile(Tile t) {
     var p = patternList[currPattern];
     var value = p[t.col][t.clicks];
     if (value == 0) {
       failed = true;
-    }
-    if (collision.sum == p.sum) {
+    } else if (collision.sum == p.sum) {
       success = true;
+      showDialog(
+          context: context,
+          builder: (BuildContext context) => AlertDialog(
+                title: const Text("Input your name to save your score: "),
+                content: TextField(
+                  onSubmitted: (value) =>
+                      setScores(value, timetaken.toString()),
+                ),
+                actions: [
+                  TextButton(
+                      onPressed: () => Navigator.pop(context, 'OK'),
+                      child: const Text("Save Score"))
+                ],
+              ));
     }
   }
 
@@ -132,7 +179,7 @@ class _GameState extends State<GamePage> {
     timer?.cancel();
     timer = Timer.periodic(Duration(seconds: 1), (timer) {
       setState(() {
-        if (started && failed != true) {
+        if (started && failed != true && success != true) {
           timetaken++;
         }
       });
@@ -160,9 +207,7 @@ class _GameState extends State<GamePage> {
               child: IconButton(
                 color: Colors.white,
                 icon: const Icon(Icons.arrow_left),
-                onPressed: () {
-                  setState(() {});
-                },
+                onPressed: () {},
               ),
             )),
         Container(
@@ -174,7 +219,7 @@ class _GameState extends State<GamePage> {
             color: Colors.white,
             icon: const Icon(Icons.arrow_left),
             onPressed: () {
-              if (started && failed != true) {
+              if (started && failed != true && success != true) {
                 Tile banana = children[currTile - 1] as Tile;
                 if (checkCollision(banana, "left") == 0) {
                   gameState.moveLeft();
@@ -193,7 +238,7 @@ class _GameState extends State<GamePage> {
             color: Colors.white,
             icon: const Icon(Icons.arrow_right),
             onPressed: () {
-              if (started && failed != true) {
+              if (started && failed != true && success != true) {
                 Tile banana = children[currTile - 1] as Tile;
                 if (checkCollision(banana, "right") == 0) {
                   gameState.moveRight();
@@ -214,7 +259,7 @@ class _GameState extends State<GamePage> {
                 color: Colors.white,
                 icon: const Icon(Icons.arrow_left),
                 onPressed: () {
-                  if (started && failed != true) {
+                  if (started && failed != true && success != true) {
                     Tile banana = children[currTile - 1] as Tile;
                     if (checkCollision(banana, "down") == 0) {
                       gameState.moveDown();
@@ -256,14 +301,10 @@ class _GameState extends State<GamePage> {
                     children = children + [Tile(3, ++currTile, Colors.blue)];
                     started = true;
                   } else {
-                    displayPattern();
-                    children.clear();
-                    updateCollision();
-
-                    currTile = 0;
-                    children = children + [Tile(3, ++currTile, Colors.blue)];
-                    failed = false;
-                    timetaken = 0;
+                    Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(
+                            builder: (BuildContext context) => GamePage()));
                   }
                 });
               }),
@@ -296,7 +337,7 @@ class _GameState extends State<GamePage> {
             iconSize: 48.00,
             icon: const Icon(Icons.circle),
             onPressed: (() {
-              if (started && failed != true) {
+              if (started && failed != true && success != true) {
                 Tile banana = children[currTile - 1] as Tile;
                 int loc = checkCollision(banana, "drop");
                 gameState.dropBlock(loc);
@@ -314,7 +355,8 @@ class _GameState extends State<GamePage> {
             onPressed: () {
               setState(() {
                 checkTile(children[currTile - 1] as Tile);
-                if (failed != true) {
+                if (failed != true && success != true) {
+                  print(gameState);
                   children = children + [Tile(3, ++currTile, Colors.blue)];
                   updateCollision();
                 }
@@ -358,7 +400,11 @@ class _GameState extends State<GamePage> {
       child: Card(
         color: Color.fromARGB(255, 0, 0, 0),
         child: Text(
-          failed ? "Game Over!" : "Time: " + minutes + ":" + seconds,
+          success
+              ? "You Win!"
+              : failed
+                  ? "Game Over!"
+                  : "Time: " + minutes + ":" + seconds,
           style: TextStyle(color: Colors.white, fontSize: 25),
           textAlign: TextAlign.center,
         ),
@@ -443,7 +489,7 @@ class Tile extends StatefulWidget {
   }
 
   @override
-  State<Tile> createState() {
+  _TileState createState() {
     gameState = _TileState();
     return gameState;
   }

@@ -7,6 +7,8 @@ import 'score.dart';
 
 import 'package:google_fonts/google_fonts.dart';
 
+import 'package:shared_preferences/shared_preferences.dart';
+
 void main() => runApp(MaterialApp(
       home: MyApp(),
     ));
@@ -65,8 +67,7 @@ class MyApp extends StatelessWidget {
                   Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (BuildContext context) =>
-                              const ScoresPage()));
+                          builder: (BuildContext context) => ScoresPage()));
                 },
                 child: Text(
                   "SCORES",

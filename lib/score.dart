@@ -1,11 +1,47 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
-class ScoresPage extends StatelessWidget {
-  const ScoresPage({super.key});
+class ScoresPage extends StatefulWidget {
+  @override
+  State<ScoresPage> createState() => _ScoreState();
+}
+
+class _ScoreState extends State<ScoresPage> {
+  List<String> scores = [''];
+  List<String> names = [''];
+
+  @override
+  void initState() {
+    super.initState();
+    loadNames();
+    loadScores();
+  }
+
+  loadScores() async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.reload();
+    setState(() {
+      scores = (prefs.getStringList('scores') ?? ['']);
+    });
+  }
+
+  loadNames() async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.reload();
+    setState(() {
+      names = (prefs.getStringList('names') ?? ['']);
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
+    String txt = "Last 10 Saved Scores: \n";
+
+    for (int i = 0; i < scores.length; i++) {
+      txt += (scores[i] + " - " + names[i] + "\n");
+    }
+
     Widget topSection = SizedBox(
       width: 300,
       height: 450,
@@ -15,7 +51,7 @@ class ScoresPage extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Text(
-                "Last 10 Saved Scores: ",
+                txt,
                 textScaleFactor: 1.5,
                 style: GoogleFonts.robotoMono(),
                 textAlign: TextAlign.center,
