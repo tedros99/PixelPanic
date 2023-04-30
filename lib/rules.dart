@@ -11,7 +11,7 @@ class RulesPage extends StatelessWidget {
       width: 300,
       height: 450,
       child: Card(
-          color: Color.fromARGB(255, 189, 199, 144),
+          color: const Color.fromARGB(255, 189, 199, 144),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
@@ -21,19 +21,19 @@ class RulesPage extends StatelessWidget {
                 textAlign: TextAlign.center,
                 style: GoogleFonts.robotoMono(),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 20,
               ),
               Text(
                   style: GoogleFonts.robotoMono(),
                   textAlign: TextAlign.center,
                   "1. Start/Reset the game with the power button!\n2. Try to complete the shaded pattern as fast as possible.\n4. Don't misplace tiles or you lose!\n"),
-              SizedBox(
+              const SizedBox(
                 height: 20,
               ),
               ElevatedButton(
                   style: ElevatedButton.styleFrom(
-                    primary: Color.fromARGB(255, 40, 43, 31),
+                    backgroundColor: const Color.fromARGB(255, 40, 43, 31),
                   ),
                   onPressed: () {
                     Navigator.push(
@@ -48,7 +48,7 @@ class RulesPage extends StatelessWidget {
                   )),
               ElevatedButton(
                   style: ElevatedButton.styleFrom(
-                    primary: Color.fromARGB(255, 40, 43, 31),
+                    backgroundColor: const Color.fromARGB(255, 40, 43, 31),
                   ),
                   onPressed: () {
                     Navigator.pop(context);
@@ -74,7 +74,7 @@ class RulesPage extends StatelessWidget {
               child: IconButton(
                 color: Colors.white,
                 icon: const Icon(Icons.arrow_left),
-                onPressed: () => print("dpad up"),
+                onPressed: () {},
               ),
             )),
         Container(
@@ -85,7 +85,7 @@ class RulesPage extends StatelessWidget {
           child: IconButton(
             color: Colors.white,
             icon: const Icon(Icons.arrow_left),
-            onPressed: () => print("dpad left"),
+            onPressed: () {},
           ),
         ),
         Container(
@@ -96,7 +96,7 @@ class RulesPage extends StatelessWidget {
           child: IconButton(
             color: Colors.white,
             icon: const Icon(Icons.arrow_right),
-            onPressed: () => print("dpad right"),
+            onPressed: () {},
           ),
         ),
         Container(
@@ -109,7 +109,7 @@ class RulesPage extends StatelessWidget {
               child: IconButton(
                 color: Colors.white,
                 icon: const Icon(Icons.arrow_left),
-                onPressed: () => print("dpad down"),
+                onPressed: () {},
               ),
             )),
         Container(

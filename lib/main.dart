@@ -6,10 +6,9 @@ import 'rules.dart';
 import 'score.dart';
 
 import 'package:google_fonts/google_fonts.dart';
-
 import 'package:shared_preferences/shared_preferences.dart';
 
-void main() => runApp(MaterialApp(
+void main() => runApp(const MaterialApp(
       home: MyApp(),
     ));
 
@@ -22,7 +21,7 @@ class MyApp extends StatelessWidget {
       width: 300,
       height: 450,
       child: Card(
-          color: Color.fromARGB(255, 189, 199, 144),
+          color: const Color.fromARGB(255, 189, 199, 144),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
@@ -36,14 +35,14 @@ class MyApp extends StatelessWidget {
                   Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (BuildContext context) => GamePage()));
+                          builder: (BuildContext context) => const GamePage()));
                 },
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: const Color.fromARGB(255, 40, 43, 31),
+                ),
                 child: Text(
                   "PLAY",
                   style: GoogleFonts.robotoMono(),
-                ),
-                style: ElevatedButton.styleFrom(
-                  primary: Color.fromARGB(255, 40, 43, 31),
                 ),
               ),
               ElevatedButton(
@@ -54,12 +53,12 @@ class MyApp extends StatelessWidget {
                           builder: (BuildContext context) =>
                               const RulesPage()));
                 },
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: const Color.fromARGB(255, 40, 43, 31),
+                ),
                 child: Text(
                   "RULES",
                   style: GoogleFonts.robotoMono(),
-                ),
-                style: ElevatedButton.styleFrom(
-                  primary: Color.fromARGB(255, 40, 43, 31),
                 ),
               ),
               ElevatedButton(
@@ -67,24 +66,25 @@ class MyApp extends StatelessWidget {
                   Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (BuildContext context) => ScoresPage()));
+                          builder: (BuildContext context) =>
+                              const ScoresPage()));
                 },
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: const Color.fromARGB(255, 40, 43, 31),
+                ),
                 child: Text(
                   "SCORES",
                   style: GoogleFonts.robotoMono(),
                 ),
-                style: ElevatedButton.styleFrom(
-                  primary: Color.fromARGB(255, 40, 43, 31),
-                ),
               ),
               ElevatedButton(
                 onPressed: () => exit(0),
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: const Color.fromARGB(255, 40, 43, 31),
+                ),
                 child: Text(
                   "EXIT",
                   style: GoogleFonts.robotoMono(),
-                ),
-                style: ElevatedButton.styleFrom(
-                  primary: Color.fromARGB(255, 40, 43, 31),
                 ),
               ),
             ],
@@ -104,7 +104,7 @@ class MyApp extends StatelessWidget {
               child: IconButton(
                 color: Colors.white,
                 icon: const Icon(Icons.arrow_left),
-                onPressed: () => print("dpad up"),
+                onPressed: () {},
               ),
             )),
         Container(
@@ -115,7 +115,7 @@ class MyApp extends StatelessWidget {
           child: IconButton(
             color: Colors.white,
             icon: const Icon(Icons.arrow_left),
-            onPressed: () => print("dpad left"),
+            onPressed: () {},
           ),
         ),
         Container(
@@ -126,7 +126,7 @@ class MyApp extends StatelessWidget {
           child: IconButton(
             color: Colors.white,
             icon: const Icon(Icons.arrow_right),
-            onPressed: () => print("dpad right"),
+            onPressed: () {},
           ),
         ),
         Container(
@@ -139,7 +139,7 @@ class MyApp extends StatelessWidget {
               child: IconButton(
                 color: Colors.white,
                 icon: const Icon(Icons.arrow_left),
-                onPressed: () => print("dpad down"),
+                onPressed: () {},
               ),
             )),
         Container(
@@ -166,8 +166,8 @@ class MyApp extends StatelessWidget {
         Container(
           color: Colors.grey,
           child: IconButton(
-            icon: const Icon(Icons.settings_power),
-            onPressed: () => print("reset button"),
+            icon: const Icon(Icons.power_settings_new),
+            onPressed: () {},
           ),
         ),
         Container(
@@ -194,20 +194,18 @@ class MyApp extends StatelessWidget {
         Container(
           color: const Color.fromARGB(255, 204, 214, 221),
           child: IconButton(
-            color: Colors.red,
-            iconSize: 48.00,
-            icon: const Icon(Icons.circle),
-            onPressed: () => print("swap butn"),
-          ),
+              color: Colors.red,
+              iconSize: 48.00,
+              icon: const Icon(Icons.circle),
+              onPressed: () {}),
         ),
         Container(
           color: const Color.fromARGB(255, 204, 214, 221),
           child: IconButton(
-            color: Colors.blue,
-            iconSize: 48.00,
-            icon: const Icon(Icons.circle),
-            onPressed: () => print("swap butn"),
-          ),
+              color: Colors.blue,
+              iconSize: 48.00,
+              icon: const Icon(Icons.circle),
+              onPressed: () {}),
         ),
         Container(
           color: const Color.fromARGB(255, 204, 214, 221),

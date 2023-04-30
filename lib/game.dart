@@ -9,6 +9,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 var gameState = _TileState();
 
 class GamePage extends StatefulWidget {
+  const GamePage({super.key});
   @override
   State<GamePage> createState() => _GameState();
 }
@@ -73,7 +74,8 @@ class _GameState extends State<GamePage> {
     for (int i = 0; i < pattern.length; i++) {
       for (int j = 0; j < pattern[i].length; j++) {
         if (pattern[i][j] == 1) {
-          children2.add(PatternTile(i, j, 0, Color.fromRGBO(0, 0, 0, 0.5)));
+          children2
+              .add(PatternTile(i, j, 0, const Color.fromRGBO(0, 0, 0, 0.5)));
         }
       }
     }
@@ -99,7 +101,7 @@ class _GameState extends State<GamePage> {
         prefs.setStringList('scores', scores);
         prefs.setStringList('names', names);
       }
-      print(prefs.getStringList('scores'));
+      //print(prefs.getStringList('scores'));
     });
   }
 
@@ -133,7 +135,7 @@ class _GameState extends State<GamePage> {
       Tile t = children[i] as Tile;
       collision[t.col][t.clicks] = 1;
     }
-    print(collision);
+    //print(collision);
   }
 
   int checkCollision(Tile t, String action) {
@@ -177,7 +179,7 @@ class _GameState extends State<GamePage> {
   @override
   Widget build(BuildContext context) {
     timer?.cancel();
-    timer = Timer.periodic(Duration(seconds: 1), (timer) {
+    timer = Timer.periodic(const Duration(seconds: 1), (timer) {
       setState(() {
         if (started && failed != true && success != true) {
           timetaken++;
@@ -304,7 +306,8 @@ class _GameState extends State<GamePage> {
                     Navigator.pushReplacement(
                         context,
                         MaterialPageRoute(
-                            builder: (BuildContext context) => GamePage()));
+                            builder: (BuildContext context) =>
+                                const GamePage()));
                   }
                 });
               }),
@@ -356,7 +359,7 @@ class _GameState extends State<GamePage> {
               setState(() {
                 checkTile(children[currTile - 1] as Tile);
                 if (failed != true && success != true) {
-                  print(gameState);
+                  //print(gameState);
                   children = children + [Tile(3, ++currTile, Colors.blue)];
                   updateCollision();
                 }
@@ -392,20 +395,19 @@ class _GameState extends State<GamePage> {
     int sec = (timetaken % 60);
     String minutes = min.toString().length <= 1 ? "0$min" : "$min";
     String seconds = sec.toString().length <= 1 ? "0$sec" : "$sec";
-    String words = "Time: " + minutes + ":" + seconds;
 
     Widget scoreLabel = SizedBox(
       width: 350,
       height: 50,
       child: Card(
-        color: Color.fromARGB(255, 0, 0, 0),
+        color: const Color.fromARGB(255, 0, 0, 0),
         child: Text(
           success
               ? "You Win!"
               : failed
                   ? "Game Over!"
-                  : "Time: " + minutes + ":" + seconds,
-          style: TextStyle(color: Colors.white, fontSize: 25),
+                  : "Time: $minutes : $seconds",
+          style: const TextStyle(color: Colors.white, fontSize: 25),
           textAlign: TextAlign.center,
         ),
       ),
@@ -439,7 +441,7 @@ class PatternTile extends StatefulWidget {
   Color tileColor;
 
   int type = 0;
-  PatternTile(this.col, this.row, this.id, this.tileColor);
+  PatternTile(this.col, this.row, this.id, this.tileColor, {super.key});
 
   @override
   _PatternState createState() {
@@ -478,7 +480,7 @@ class Tile extends StatefulWidget {
   Color tileColor;
 
   int type = 0;
-  Tile(this.col, this.id, this.tileColor);
+  Tile(this.col, this.id, this.tileColor, {super.key});
 
   void setColumn(int column) {
     col = column;

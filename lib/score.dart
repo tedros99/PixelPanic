@@ -3,6 +3,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class ScoresPage extends StatefulWidget {
+  const ScoresPage({super.key});
   @override
   State<ScoresPage> createState() => _ScoreState();
 }
@@ -39,14 +40,14 @@ class _ScoreState extends State<ScoresPage> {
     String txt = "Last 10 Saved Scores: \n";
 
     for (int i = 0; i < scores.length; i++) {
-      txt += (scores[i] + " - " + names[i] + "\n");
+      txt += ("${scores[i]} seconds - ${names[i]}\n");
     }
 
     Widget topSection = SizedBox(
       width: 300,
       height: 450,
       child: Card(
-          color: Color.fromARGB(255, 189, 199, 144),
+          color: const Color.fromARGB(255, 189, 199, 144),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
@@ -56,12 +57,12 @@ class _ScoreState extends State<ScoresPage> {
                 style: GoogleFonts.robotoMono(),
                 textAlign: TextAlign.center,
               ),
-              SizedBox(
+              const SizedBox(
                 height: 20,
               ),
               ElevatedButton(
                   style: ElevatedButton.styleFrom(
-                    primary: Color.fromARGB(255, 40, 43, 31),
+                    backgroundColor: const Color.fromARGB(255, 40, 43, 31),
                   ),
                   onPressed: () {
                     Navigator.pop(context);
@@ -87,7 +88,7 @@ class _ScoreState extends State<ScoresPage> {
               child: IconButton(
                 color: Colors.white,
                 icon: const Icon(Icons.arrow_left),
-                onPressed: () => print("dpad up"),
+                onPressed: () {},
               ),
             )),
         Container(
@@ -98,7 +99,7 @@ class _ScoreState extends State<ScoresPage> {
           child: IconButton(
             color: Colors.white,
             icon: const Icon(Icons.arrow_left),
-            onPressed: () => print("dpad left"),
+            onPressed: () {},
           ),
         ),
         Container(
@@ -109,7 +110,7 @@ class _ScoreState extends State<ScoresPage> {
           child: IconButton(
             color: Colors.white,
             icon: const Icon(Icons.arrow_right),
-            onPressed: () => print("dpad right"),
+            onPressed: () {},
           ),
         ),
         Container(
@@ -120,10 +121,9 @@ class _ScoreState extends State<ScoresPage> {
             child: RotatedBox(
               quarterTurns: 3,
               child: IconButton(
-                color: Colors.white,
-                icon: const Icon(Icons.arrow_left),
-                onPressed: () => print("dpad down"),
-              ),
+                  color: Colors.white,
+                  icon: const Icon(Icons.arrow_left),
+                  onPressed: () {}),
             )),
         Container(
           color: const Color.fromARGB(255, 204, 214, 221),
@@ -149,8 +149,8 @@ class _ScoreState extends State<ScoresPage> {
         Container(
           color: Colors.grey,
           child: IconButton(
-            icon: const Icon(Icons.settings_power),
-            onPressed: () => print("reset button"),
+            icon: const Icon(Icons.power_settings_new),
+            onPressed: () {},
           ),
         ),
         Container(
@@ -180,7 +180,7 @@ class _ScoreState extends State<ScoresPage> {
             color: Colors.red,
             iconSize: 48.00,
             icon: const Icon(Icons.circle),
-            onPressed: () => print("swap butn"),
+            onPressed: () {},
           ),
         ),
         Container(
@@ -189,7 +189,7 @@ class _ScoreState extends State<ScoresPage> {
             color: Colors.blue,
             iconSize: 48.00,
             icon: const Icon(Icons.circle),
-            onPressed: () => print("swap butn"),
+            onPressed: () {},
           ),
         ),
         Container(

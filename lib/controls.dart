@@ -10,7 +10,7 @@ class ControlsPage extends StatelessWidget {
       width: 300,
       height: 450,
       child: Card(
-          color: Color.fromARGB(255, 189, 199, 144),
+          color: const Color.fromARGB(255, 189, 199, 144),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
@@ -20,19 +20,19 @@ class ControlsPage extends StatelessWidget {
                 textScaleFactor: 2.0,
                 textAlign: TextAlign.center,
               ),
-              SizedBox(
+              const SizedBox(
                 height: 20,
               ),
               Text(
                   style: GoogleFonts.robotoMono(),
                   textAlign: TextAlign.center,
                   "D-PAD Up: Nothing\n\nD-PAD Down: Move Tile Down\n\nD-PAD Left: Move Tile Left\n\nD-PAD Right: Move Tile Right\n\nBlue Button: Place Tile\n\nRed Button: Drop Tile to Bottom"),
-              SizedBox(
+              const SizedBox(
                 height: 20,
               ),
               ElevatedButton(
                   style: ElevatedButton.styleFrom(
-                    primary: Color.fromARGB(255, 40, 43, 31),
+                    backgroundColor: const Color.fromARGB(255, 40, 43, 31),
                   ),
                   onPressed: () {
                     Navigator.pop(context);
